@@ -38,25 +38,35 @@
   const favoriteBooks = [];
 
   function initAction(){
-    
-    const booksImages = document.querySelectorAll(select.containerOf.images);
+    /* find all book-image elements */
+    const booksImages = document.querySelector(select.containerOf.images);
 
-    for(let image of booksImages){
-      
-      image.addEventListener('dblclick', function(event){
-        event.preventDefault();
+    //for(let image of booksImages){
+    /* add event Listener for a clicked image */
+    booksImages.addEventListener('dblclick', function(event){
+      event.preventDefault();
 
-        image.classList.add('favorite');
+      const image = event.target.offsetParent;
+        
+      /* check if clicked image is already in favoriteBooks array */
+      if(image.classList.contains(select.containerOf.images)){
+
+        image.classList.toggle('favorite');
 
         const bookId = image.getAttribute('data-id');
 
-        favoriteBooks.push(bookId);
+        if(!favoriteBooks.includes(bookId)){
+          favoriteBooks.push(bookId);
         
-      });
-    }
-
-    
-
+        } else {
+          /* find an IndexOf bookId which need to be removed in favoriteBooks array */
+          const indexOfRemoveBook = favoriteBooks.indexOf(bookId);
+          /* remove a bookId from a favoriteBooks array */
+          favoriteBooks.splice(indexOfRemoveBook, 1);
+        }
+      }
+      console.log(favoriteBooks);
+    });
   }
 
   render();
